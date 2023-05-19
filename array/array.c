@@ -10,22 +10,29 @@ int min();
 void ascending();
 bool checknumber();
 void prime();
-
+void insertionsort();
 void swap();
 void selectionsort();
+int binarysearch();
+void findbyloop();
+void addelement();
+void removeelement();
 void main()
 {
-    int n;
+    int n, a, b;
     printf(" nhap so phan tu mang: ");
     scanf("%d", &n);
     nhapmang(n);
-    selectionsort(n);
-    // prime(n);
-    // ascending(n);
     xuatmang(n);
-    // xuatmangnguoc(n - 1);
-    // sumodd(n);
-    // printf("%d", min(n));
+    // printf(" nhap vi can them vao mang a = ");
+    // scanf("%d", &a);
+    // printf(" nhap gia tri can them vao mang b = ");
+    // scanf("%d", &b);
+    // addelement(&n, a - 1, b);
+    printf("nhap vi tri mang can xoa:");
+    scanf("%d", &a);
+    removeelement(&n, a - 1);
+    xuatmang(n);
 }
 void xuatmangnguoc(int n)
 {
@@ -138,7 +145,6 @@ void swap(int *x, int *y)
     *x = *y;
     *y = temp;
 }
-
 void selectionsort(int n)
 {
     int m, i, j;
@@ -155,4 +161,94 @@ void selectionsort(int n)
         }
         swap(&arry[m], &arry[i]);
     }
+}
+void insertionsort(int n)
+{
+    int m, i, j;
+    for (i = 1; i < n; i++)
+    {
+        m = arry[i];
+        j = i - 1;
+        while (j >= 0 && arry[j] > m)
+        {
+            arry[j + 1] = arry[j];
+            j--;
+        }
+        arry[j + 1] = m;
+    }
+}
+int binarysearch(int l, int r, int x)
+{
+    if (r > l)
+    {
+        int mid = l + (r - l) / 2;
+        if (arry[mid] == x)
+            return mid;
+        if (arry[mid] < x)
+            return binarysearch(mid + 1, r, x);
+        return binarysearch(l, mid - 1, x);
+    }
+    return -1;
+}
+void findbyloop(int n)
+
+{
+    int first, second;
+    if (arry[0] > arry[1])
+    {
+        first = arry[0];
+        second = arry[1];
+    }
+    else
+    {
+        first = arry[1];
+        second = arry[0];
+    }
+    for (int i = 2; i < n; i++)
+    {
+        if (arry[i] > first && arry[i] > second)
+        {
+            second = first;
+            first = arry[i];
+        }
+        else if (arry[i] > second && arry[i] < first)
+        {
+            second = arry[i];
+        }
+    }
+    printf("first = %d, second = %d\n", first, second);
+}
+void addelement(int *n, int location, int value)
+{
+    if (*n >= 100)
+    {
+        return;
+    }
+    if (location <= 0)
+    {
+        location = 0;
+    }
+    else if (location >= *n)
+    {
+        location = *n;
+    }
+    for (int i = *n; i > location; i--)
+    {
+        arry[i + 1] = arry[i];
+    }
+    arry[location] = value;
+}
+void removeelement(int *n, int location)
+{
+    if (location < 0 || location >= *n)
+    {
+
+        printf("vi tri khong hop le");
+        return;
+    }
+    for (int i = location; i < *n; i++)
+    {
+        arry[i] = arry[i + 1];
+    }
+    --*n;
 }
